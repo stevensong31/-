@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Socket.io client library -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- LOGIN VIEW -->
+        <div id="login-view" class="view active">
+            <div class="card">
+                <h1>Welcome</h1>
+                <p class="subtitle">Enter your details to start chatting</p>
+
+                <div class="theme-selector">
+                    <button class="theme-btn active" data-theme="purple" style="background-color: #6366f1;"></button>
+                    <button class="theme-btn" data-theme="yellow" style="background-color: #facc15;"></button>
+                    <button class="theme-btn" data-theme="blue" style="background-color: #3b82f6;"></button>
+                    <button class="theme-btn" data-theme="red" style="background-color: #ef4444;"></button>
+                    <button class="theme-btn" data-theme="pink" style="background-color: #f9a8d4;"></button>
+                </div>
+
+                <div class="form-group">
+                    <label for="nickname">Nickname</label>
+                    <input type="text" id="nickname" placeholder="e.g. Alex" autofocus>
+                </div>
+
+                <div class="actions">
+                    <button id="btn-create-room" class="btn primary">Create New Room</button>
+
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="join-group">
+                        <input type="text" id="room-code-input" placeholder="7-Digit Room Code" maxlength="7">
+                        <button id="btn-join-room" class="btn secondary">Join Room</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHAT VIEW -->
+        <div id="chat-view" class="view hidden">
+            <header class="chat-header">
+                <div class="room-info">
+                    <span class="label">Room Code:</span>
+                    <span id="display-room-code" class="code">-------</span>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-leave" class="btn text-only">Leave</button>
+                    <button id="btn-users" class="btn text-only" title="View Users"> Users </button>
+                </div>
+            </header>
+
+            <div id="messages-container" class="messages-area">
+                <!-- Messages will be injected here -->
+                <div class="message system">
+                    <p>Welcome to the chat room!</p>
+                </div>
+            </div>
+
+            <footer class="chat-input-area">
+                <form id="chat-form">
+                    <input type="file" id="image-input" accept="image/*" style="display: none;">
+                    <button type="button" id="btn-image" class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </button>
+                    <textarea id="message-input" placeholder="Type a message..." rows="1"></textarea>
+                    <button type="submit" class="btn-send">
+                        <!-- Send Icon SVG -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </footer>
+        </div>
+    </div>
+
+    <!-- PASSWORD MODAL -->
+    <div id="password-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Enter Room Password</h3>
+            <p>This room is protected.</p>
+            <div class="form-group">
+                <input type="password" id="room-password-input" placeholder="Password">
+            </div>
+            <div class="modal-actions">
+                <button id="btn-cancel-password" class="btn secondary">Cancel</button>
+                <button id="btn-confirm-password" class="btn primary">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENERIC MODAL -->
+    <div id="generic-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="generic-modal-title">Alert</h3>
+            <p id="generic-modal-message">Message text...</p>
+            <div id="generic-modal-actions" class="modal-actions">
+                <!-- Buttons injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- USERS MODAL -->
+    <div id="users-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Current Users</h3>
+            <ul id="users-list" class="user-list">
+                <!-- User items injected here -->
+            </ul>
+            <div class="modal-actions">
+                <button id="btn-close-users" class="btn secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
